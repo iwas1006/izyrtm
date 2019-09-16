@@ -30,21 +30,11 @@
     expose:
       - 8080
 
-  smtp_mail:
-    image: bytemark/smtp
-    container_name: smtp_mail
-    restart: unless-stopped
-    expose:
-      - 25
-    ports:
-      - 25:25
-
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
     links:
       - prometheus:prometheus
-      - smtp_mail:smtp_mail
     ports:
       - 3000:3000
     environment:
@@ -52,7 +42,7 @@
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_SERVER_DOMAIN=monbot.hopto.org
       - GF_SMTP_ENABLED=true
-      - GF_SMTP_HOST=smtp_mail:25
+      - GF_SMTP_HOST=192.168.1.20:25
       - GF_SMTP_USER=izyrtm@gmail.com
       - GF_SMTP_PASSWORD=mypassword
       - GF_SMTP_FROM_ADDRESS=izyrtm@gmail.com

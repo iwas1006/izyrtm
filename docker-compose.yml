@@ -33,6 +33,9 @@
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
+    volumes:
+      - ${PWD}/ssl/fullchain.pem:/etc/grafana/fullchain.pem
+      - ${PWD}/ssl/privkey.pem:/etc/grafana/privkey.pem
     links:
       - prometheus:prometheus
     ports:
@@ -43,6 +46,7 @@
       - GF_SERVER_DOMAIN=monbot.hopto.org
       - GF_SMTP_ENABLED=true
       - GF_SMTP_HOST=192.168.1.20:25
-      - GF_SMTP_USER=izyrtm@gmail.com
-      - GF_SMTP_PASSWORD=mypassword
-      - GF_SMTP_FROM_ADDRESS=izyrtm@gmail.com
+      - GF_SMTP_FROM_ADDRESS=izyrtm@monbot.hopto.org
+      - GF_SERVER_CERT_FILE=/etc/grafana/fullchain.pem
+      - GF_SERVER_CERT_KEY=/etc/grafana/privkey.pem
+      - GF_SERVER_PROTOCOL=https
